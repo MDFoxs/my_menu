@@ -1,5 +1,7 @@
 # my_menu
 
+## Project for it4750
+
 ## Project setup
 ```
 yarn install
