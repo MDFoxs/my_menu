@@ -1,7 +1,22 @@
 <template>
 	<div>
 		<h1>This is the homepage?</h1>
-		<h2>{{text}}</h2>	
+		<h2>{{text}}</h2>
+		<b-alert 	:show="dismissCountDown"
+							dismissible
+							variant="warning"
+							@dismissed="dismissCountDown=0"
+							@dismiss-count-down="countDownChanged">
+      <p>This alert will dismiss after {{dismissCountDown}} seconds...</p>
+      <b-progress variant="warning"
+                  :max="dismissSecs"
+                  :value="dismissCountDown"
+                  height="4px">
+      </b-progress>
+    </b-alert>
+    <b-btn @click="showAlert" variant="info" class="m-1">
+      Show alert with count-down timer
+    </b-btn>
 		<div v-if="isLoggedIn">
       <p>Hello {{ username }}</p>
       <p>
@@ -18,10 +33,8 @@
 	</div>
 </template>
 
-<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
 	import netlifyIdentity from "netlify-identity-widget";
-
 	import { mapGetters, mapActions } from "vuex";
 
 	netlifyIdentity.init({
@@ -32,6 +45,8 @@
 	export default {
 		data() {
 			return {
+				dismissSecs: 10,
+				dismissCountDown: 0,
 				text: "This is a sentence?"
 			};
 		},
@@ -68,7 +83,13 @@
           netlifyIdentity.logout();
           this.$router.push({ name: "Home" });
         }
-      }
-    }
+			},
+			countDownChanged (dismissCountDown) {
+				this.dismissCountDown = dismissCountDown
+			},
+			showAlert () {
+				this.dismissCountDown = this.dismissSecs
+			}
+		}
 	}
 </script>
