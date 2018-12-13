@@ -1,5 +1,5 @@
 <template>
-  <h1>Bravo! You made it! Protected Page</h1>
+  <h1>Bravo! You made it! Find Recipes</h1>
 </template>
 
 <script>

@@ -1,95 +1,66 @@
 <template>
-	<div>
-		<h1>This is the homepage?</h1>
-		<h2>{{text}}</h2>
-		<b-alert 	:show="dismissCountDown"
-							dismissible
-							variant="warning"
-							@dismissed="dismissCountDown=0"
-							@dismiss-count-down="countDownChanged">
-      <p>This alert will dismiss after {{dismissCountDown}} seconds...</p>
-      <b-progress variant="warning"
-                  :max="dismissSecs"
-                  :value="dismissCountDown"
-                  height="4px">
-      </b-progress>
-    </b-alert>
-    <b-btn @click="showAlert" variant="info" class="m-1">
-      Show alert with count-down timer
-    </b-btn>
-		<div v-if="isLoggedIn">
-      <p>Hello {{ username }}</p>
-      <p>
-        <button @click="triggerNetlifyIdentityAction('logout')">Log Out</button>
-      </p>
-    </div>
-    <div v-else>
-      <p>You are not logged in.</p>
-      <p>
-        <button @click="triggerNetlifyIdentityAction('login')">Log In</button>
-        <button @click="triggerNetlifyIdentityAction('signup')">Sign Up</button>
-      </p>
-    </div>
-	</div>
+  <div>
+	<b-carousel id="carousel1"
+							style="text-shadow: 1px 1px 2px #333;"
+							controls
+							indicators
+							background="#ababab"
+							:interval="4000"
+							img-width="1024"
+							img-height="480"
+							v-model="slide"
+							@sliding-start="onSlideStart"
+							@sliding-end="onSlideEnd"
+	>
+		<!-- Slide with blank fluid image to maintain slide aspect ratio -->
+		<b-carousel-slide caption="Create an Account" img-blank img-alt="Create an Account">
+			<p>
+				To get started click the sign up button in the top right corner.
+			</p>
+		</b-carousel-slide>
+
+		<!-- Text slides with image -->
+		<b-carousel-slide caption="Input your recipes"
+											text="Input your families favorite recipes for easy reference and for the menus to choose from."
+											img-src="https://get.pxhere.com/photo/hand-table-book-restaurant-dish-meal-food-culinary-produce-kitchen-recipe-breakfast-paper-healthy-eat-lunch-cuisine-homemade-page-preparation-cook-tasty-frisch-dine-benefit-from-ingredients-cookbook-italian-food-recipes-881861.jpg"
+		></b-carousel-slide>
+
+					<!-- Text slides with image -->
+		<b-carousel-slide caption="Customize your menu"
+											text="Our program will create a menu from the recipes you have input. Then you can adjust any recipes replacing them or marking them for other things."
+											img-src="https://www.maxpixel.net/static/photo/1x/Dark-Cabinetry-Dark-Cabinets-Kitchen-3564506.jpg"
+		></b-carousel-slide>
+
+					<!-- Text slides with image -->
+		<b-carousel-slide caption="Go shopping"
+											text="Once your menu is complete have a shopping list generated for you to check your pantry and get your ingreedients from the store."
+											img-src="https://get.pxhere.com/photo/fruit-flower-city-shop-store-food-vendor-produce-vegetable-color-market-marketplace-shopping-groceries-tomato-public-space-supermarket-grocery-store-hypermarket-sense-human-settlement-convenience-store-greengrocer-super-market-1379249.jpg"
+		></b-carousel-slide>
+	</b-carousel>
+
+    <p class="mt-4">
+      Slide #: {{ slide }}<br>
+      Sliding: {{ sliding }}
+    </p>
+
+  </div>
 </template>
 
 <script>
-	import netlifyIdentity from "netlify-identity-widget";
-	import { mapGetters, mapActions } from "vuex";
-
-	netlifyIdentity.init({
-		APIUrl: "https://mymenu.mariesdiaz.com/.netlify/identity",
-		logo: true
-	});
-
-	export default {
-		data() {
-			return {
-				dismissSecs: 10,
-				dismissCountDown: 0,
-				text: "This is a sentence?"
-			};
-		},
-		computed: {
-			...mapGetters("user", {
-				isLoggedIn: "getUserStatus",
-				user: "getUser"
-			}),
-			username() {
-				return this.user ? this.user.username :", there!";
-			}
-		},
-		methods: {
-      ...mapActions("user", {
-        updateUser: "updateUser"
-      }),
-      triggerNetlifyIdentityAction(action) {
-        if (action == "login" || action == "signup") {
-          netlifyIdentity.open(action);
-          netlifyIdentity.on(action, user => {
-            netlifyIdentity.close();
-            let currentUser = {
-              username: user.user_metadata.full_name,
-              email: user.email
-            };
-            this.updateUser({
-              currentUser: currentUser
-            });
-          });
-        } else if (action == "logout") {
-          this.updateUser({
-            currentUser: null
-          });
-          netlifyIdentity.logout();
-          this.$router.push({ name: "Home" });
-        }
-			},
-			countDownChanged (dismissCountDown) {
-				this.dismissCountDown = dismissCountDown
-			},
-			showAlert () {
-				this.dismissCountDown = this.dismissSecs
-			}
-		}
-	}
+export default {
+  data () {
+    return {
+      slide: 0,
+      sliding: null
+    }
+  },
+  methods: {
+    onSlideStart () {
+      this.sliding = true
+    },
+    onSlideEnd () {
+      this.sliding = false
+    }
+  }
+}
 </script>
