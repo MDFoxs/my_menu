@@ -23,11 +23,11 @@
                 <b-row>
                   <b-col>
                     <p>
-                      Ingreedients
+                      Ingredients
                     </p>
                     <b-list-group>
-                      <b-list-group-item>Ingreedient 1</b-list-group-item>
-                      <b-list-group-item>Ingreedient 2</b-list-group-item>
+                      <b-list-group-item>Ingredient 1</b-list-group-item>
+                      <b-list-group-item>Ingredient 2</b-list-group-item>
                     </b-list-group>
                   </b-col>
                   <b-col>
