@@ -12,7 +12,9 @@
       </b-row>
       <b-row class="buffer" v-show="hasIngredients">
         <b-col cols="12">
-          <b-button @click="getRecipes" size="lg">Find recipes!</b-button>
+          <b-button v-b-modal.modal1 @click="getRecipes" size="lg">
+            Find recipes!
+          </b-button>
         </b-col>
       </b-row>
       <b-row class="buffer">
@@ -26,6 +28,19 @@
         </b-col>
       </b-row>
     </b-container>
+    <b-modal id="modal1" title="Recipes">
+      <b-card v-for="recipe in recipes" :key="recipe.label" :title="recipe.label"
+              :img-src="recipe.image"
+              img-alt="Image"
+              img-top
+              tag="article"
+              class="mb-2">
+        <p v-for="ing in recipe.ingredientLines" :key="ing.id" class="card-text">
+          {{ing}}
+        </p>
+        <b-button :href="recipe.url" variant="primary">Go to  {{recipe.source}} for the recipe!</b-button>
+      </b-card>
+    </b-modal>
   </div>
 </template>
 
@@ -38,6 +53,7 @@
     data() {
       return {
         ingredients: [],
+        recipes: [],
         errorText: "",
         ingredientText: ""
       }
@@ -60,9 +76,12 @@
         this.ingredients = _.filter(this.ingredients, ing => ing != ingredient);
       },
       getRecipes() {
+        this.recipes = [];
         return edamam.getRecipes(this.ingredients).then(res => {
-          console.log(res);
-        })
+          _.each(res.data.hits, hit =>  {
+            if (!_.includes(this.recipes, hit.recipe)) this.recipes.push(hit.recipe)
+          });
+        });
       }
     },
     computed: {
