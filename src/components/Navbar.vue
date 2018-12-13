@@ -74,7 +74,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 nav { 
   background-color: #2ec79f;
   

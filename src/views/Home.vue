@@ -5,7 +5,7 @@
 		controls
 		indicators
 		background="#ababab"
-		:interval="4000"
+		:interval="5000"
 		img-width="1024"
 		img-height="480"
 		v-model="slide"
@@ -28,14 +28,14 @@
 
 		<!-- Text slides with image -->
 		<b-carousel-slide caption="Customize your menu"
-			text="Our program will create a menu from the recipes you have input. Then you can adjust any recipes replacing them or marking them for other things.">
+			text="Our program will create a menu from the recipes you have input.">
 			<img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
 			src="@/assets/Menu.jpg" alt="image slot">
 		</b-carousel-slide>
 
 		<!-- Text slides with image -->
 		<b-carousel-slide caption="Go shopping"
-			text="Once your menu is complete have a shopping list generated for you to check your pantry and get your ingreedients from the store.">
+			text="Once a menu is complete a shopping list will be generated saving you time and money.">
 			<img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
 			src="@/assets/shopping.png" alt="image slot">
 		</b-carousel-slide>
