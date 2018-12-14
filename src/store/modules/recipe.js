@@ -18,7 +18,7 @@ const state = {
       temp: "None",
       tags: ["breakfast"],
       ingredients: ["bread", "peanut butter", "jelly"],
-      directions: "Make a pb & j"
+      directions: "Take one slice of bread and put peanut butter on one side. Take a second piece of bread and put jelly on one side. Put to two pieces of bread together with the peanut butter and jelly touching."
     }
   ]
 };

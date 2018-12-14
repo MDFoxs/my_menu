@@ -6,6 +6,7 @@ import Home from "@/views/Home";
 import MyMenus from "@/views/MyMenus";
 import MyRecipes from "@/views/MyRecipes";
 import FindRecipes from "@/views/FindRecipes";
+import Profile from "@/views/Profile";
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,12 @@ const router = new VueRouter({
       name: "Find Recipes",
       meta: { requiresAuth: true },
       component: FindRecipes
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+      meta: { requiresAuth: true },
+      component: Profile
     }
   ]
 });

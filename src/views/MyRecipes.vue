@@ -69,6 +69,19 @@
       </b-form>
     </div>
   </b-modal>
+   <!-- Recipe  -->
+  <b-modal v-for="recipe in recipes" :key="recipe.title" hide-footer :id="`${camelCase(recipe.title)}-modal`" :title="recipe.title" :ref="camelCase(recipe.title)">
+    <b-card-group deck>
+      <b-card no-body header="<b>Ingredients and Directions</b>">
+        <b-list-group flush>
+          <b-list-group-item v-for="ing in recipe.ingredients" :key="ing">{{ing}}</b-list-group-item>
+        </b-list-group>
+        <b-card-body>
+          {{ recipe.directions }}
+        </b-card-body>
+      </b-card>
+    </b-card-group>
+  </b-modal>
   <b-card no-body>
     <b-tabs card>
       <b-tab title="All Recipes" active>
@@ -84,20 +97,6 @@
               </p>
               <div>
                 <b-button variant="primary" @click="openRecipe(recipe.title)">Click to see recipe</b-button>
-                <!-- Modal Component -->
-                <b-modal hide-footer :id="`${camelCase(recipe.title)}-modal`" :title="recipe.title" :ref="camelCase(recipe.title)">
-                  <p class="my-4">Recipe Display</p>
-                  <b-row>
-                      <p>Ingredients</p>
-                      <b-list-group>
-                        <b-list-group-item v-for="ing in recipe.ingredients" :key="ing">{{ing}}</b-list-group-item>
-                      </b-list-group>
-                  </b-row>
-                  <b-row>
-                      <p>Directions: </p>
-                      <p>{{ recipe.directions }}</p>
-                  </b-row>
-                </b-modal>
               </div>
               </b-card>
             </b-col>
@@ -241,20 +240,18 @@
     methods: {
       saveRecipe (evt) {
         evt.preventDefault();
-        alert(JSON.stringify(this.recipe));
         this.$store.commit("recipe/addRecipe", this.recipe);
+        this.recipe = {
+          title: "",
+          source:"",
+          cookTime: "",
+          temp: "",
+          tags: [],
+          directions: "",
+          ingredients: [],
+        }
+        this.ingredientText = "";
         this.$refs.addRecipeForm.hide();
-      },
-      onCancel (evt) {
-        evt.preventDefault();
-        /* Reset our form values */
-        this.form.email = '';
-        this.form.name = '';
-        this.form.food = null;
-        this.form.checked = [];
-        /* Trick to reset/clear native browser form validation state */
-        this.show = false;
-        this.$nextTick(() => { this.show = true });
       },
       addIngredient() {
         this.errorText = "";
